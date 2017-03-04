@@ -7,16 +7,16 @@ var Schema = mongoose.Schema;
     "_id": "4567",
     "contenido": "Problemas academicos",
     "simbolo": "fa-graduation-cap",
-    "ids_preguntas_padre": ["3456"],
-    "ids_preguntas_hijo": [],
-    "ids_resultados_hijo": ["5678"]
+    "preguntasPadre": ["3456"],
+    "preguntasHijo": [],
+    "resultadosHijo": ["5678"]
 */
 
 var respuestaSchema = new Schema({
     contenido: String,
     simbolo: String,
     preguntasPadre: [Schema.Types.ObjectId],
-    preguntassHijo: [Schema.Types.ObjectId],
+    preguntasHijo: [Schema.Types.ObjectId],
     resultadosHijo: [Schema.Types.ObjectId]
 });
 

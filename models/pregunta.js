@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
     
     "_id":"3456",
     "contenido":"¿Que tipo de problemas tienes?",
-    "ids_respuestas_padre" :[],
-    "ids_respuestas_hijo":["4567"]
+    "respuestasPadre" :[],
+    "respuestasHijo":["4567"]
 */
 
 var preguntaSchema = new Schema({

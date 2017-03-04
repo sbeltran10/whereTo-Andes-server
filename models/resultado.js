@@ -8,9 +8,9 @@ var Schema = mongoose.Schema;
     "nombre":"El Hexagono",
     "ubicacion":"LL_312",
     "imagen":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Universidad_de_los_Andes_(3326108271).jpg/300px-Universidad_de_los_Andes_(3326108271).jpg",
-    "como_llegar":"Tomar escaleras al lado de la plazoleta Lleras",
+    "comoLlegar":"Tomar escaleras al lado de la plazoleta Lleras",
     "horario": "Lunes a Viernes, de 8:00 am - 4:00 pm",
-    "ids_respuestas_padre" :["4567"]
+    "respuestasPadre" :["4567"]
 */
 
 var resultadoSchema = new Schema({

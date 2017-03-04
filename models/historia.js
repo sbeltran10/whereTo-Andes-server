@@ -7,11 +7,11 @@ var Schema = mongoose.Schema;
     "_id":"2345",
     "nombre":"Ayuda academica fisica",
     "fecha":"2016-05-18",
-    "id_usuario":"12345",
+    "usuario":"12345",
     "pasos": [
         {
-            "id_pregunta":"3456",
-            "id_respuesta":"4567"
+            "pregunta":"3456",
+            "respuesta":"4567"
         }
     ]
 */

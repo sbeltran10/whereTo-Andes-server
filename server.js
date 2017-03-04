@@ -14,6 +14,7 @@ mongoose.connect(DB_URI);
 var usuarios = require('./routes/usuarios');
 var preguntas = require('./routes/preguntas');
 var respuestas = require('./routes/respuestas');
+var resultados = require('./routes/resultados');
 var historias = require('./routes/historias');
 
 // Configuracion de rutas y el parser para JSON
@@ -26,7 +27,14 @@ app.use(cors());
 app.use('/usuarios', usuarios);
 app.use('/preguntas', preguntas);
 app.use('/respuestas', respuestas);
+app.use('/resultados', resultados);
 app.use('/historias', historias);
+
+
+// Pagina por defecto
+app.get('/', (req, res) => {
+  res.status(200).send('Where to Andes');
+});
 
 // Puerto para la escucha de peticiones
 app.listen(process.env.PORT||8080);
