@@ -8,6 +8,11 @@ router.get('/', function (req, res) {
   routesCommons.darTodos(req,res,Usuario);
 });
 
+// Obtiene un usuario con un id especifico
+router.get('/:id', function (req, res) {
+  routesCommons.darDocumento(req,res,Usuario);
+});
+
 // Registro de un nuevo usuario
 router.post('/', function (req, res) {
   var nuevoUsuario = new Usuario({

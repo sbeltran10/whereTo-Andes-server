@@ -8,6 +8,16 @@ router.get('/', function (req, res) {
   routesCommons.darTodos(req, res, Pregunta);
 });
 
+// Obtiene un usuario con un id especifico
+router.get('/:id', function (req, res) {
+  routesCommons.darDocumento(req,res,Pregunta);
+});
+
+// Actualiza un documento con el id dado
+router.put('/:id', function (req, res) {
+  routesCommons.actualizarDocumento(req, res, Pregunta);
+});
+
 // Obtiene una pregunta junto con sus posibles respuestas
 router.get('/:id', function (req, res) {
   Pregunta.findById(req.params.id, '_id contenido', function (err1, doc) {

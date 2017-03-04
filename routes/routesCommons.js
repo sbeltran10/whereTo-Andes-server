@@ -13,7 +13,37 @@ exports.darTodos = function (req, res, model) {
     });
 };
 
-// Metodo generico para insertar o actualizar un registro en una coleccion, si el body contiene id, se intentara actualizar el documento existente
+// Metodo generico para obtener un modelo con un id especifico
+exports.darDocumento = function (req, res, model) {
+    model.findById(req.params.id, function (err, doc) {
+        if (err) {
+            res.status(500).send('Ocurrio un error obteniendo el documento');
+        }
+        else
+            res.status(200).send(doc);
+    });
+}
+
+// Metodo para actualizar un documento dado su id
+exports.actualizarDocumento = function (req, res, model) {
+    if (req.params.id) {
+        model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, doc) {
+            if (err) {
+                res.status(500).send('No se pudo actualizar el documento');
+            }
+            else {
+                if (doc.methods) actualizarRefsModelo(id, nuevoModelo);
+                res.status(200).send(doc);
+            }
+        });
+    }
+    else {
+        res.status(500).send('Id invalido');
+    }
+
+}
+
+// Metodo generico para insertar un documento en una coleccion, si por alguna razon el body contiene un id, se intentara actualizar el documento
 exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
     if (id) {
         var upsertData = nuevoModelo.toObject();
@@ -21,10 +51,9 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
         nuevoModelo.constructor.findOneAndUpdate({ _id: id }, upsertData, { new: true }, function (err, doc) {
             if (err) {
                 res.status(500).send('No se pudo actualizar el documento');
-                console.log(err);
             }
             else {
-                if (nuevoModelo.methods) actualizarRefsModelo(id, nuevoModelo);
+                if (nuevoModelo.methods) actualizarRefsModelo(id, doc);
                 res.status(200).send(doc);
             }
         });
