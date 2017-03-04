@@ -1,36 +1,16 @@
 var router = require('express').Router();
 var Resultado = require('../models/resultado.js');
+var routesCommons = require('./routesCommons.js');
 
 // Obtiene todos los resultados
 router.get('/', function (req, res) {
-  Resultado.find(function (err, docs) {
-    if (err) {
-      res.status(500).send('Ocurrio un error obteniendo los datos');
-    }
-    else
-      res.status(200).send(docs);
-  });
+    routesCommons.darTodos(req, res, Resultado);
 });
 
-// Registro de un nuevo resultado
+// Registro de un nuevo resultado, si el body contiene id, se intentara actualizar el documento existente
 router.post('/', function (req, res) {
-    var nuevoResultado = new Resultado({
-        nombre: req.body.nombre,
-        ubicacion: req.body.ubicacion,
-        imagen: req.body.imagen,
-        comoLlegar: req.body.comoLlegar,
-        horario: req.body.horario,
-        respuestasPadre: req.body.respuestasPadre,
-    });
-
-    nuevoResultado.save(function (err, doc, numAffected) {
-        if (err) {
-            res.status(500).send('No se pudo insertar el resultado');
-        }
-        else
-            res.status(200).send(doc);
-    });
-
+    var nuevoResultado = new Resultado(req.body);
+    routesCommons.actualizarInsertar(req, res, nuevoResultado, req.body._id);
 });
 
 module.exports = router;

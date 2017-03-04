@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Respuesta = require('./respuesta.js');
 var Schema = mongoose.Schema;
 
 /* Representa un documento pregunta en mongoDB
@@ -15,5 +16,18 @@ var preguntaSchema = new Schema({
     respuestasPadre: [Schema.Types.ObjectId],
     respuestasHijo: [Schema.Types.ObjectId]
 });
+
+// Actualiza las referencias en otros documentos
+preguntaSchema.methods.actualizarReferencias = function (objId) {
+    this.respuestasPadre.forEach(function (e) {
+        Respuesta.update({ _id: e }, { $push: { "preguntasHijo": objId } },
+            { safe: true, upsert: true }).exec();
+    });
+
+    this.respuestasHijo.forEach(function (e) {
+        Respuesta.update({ _id: e }, { $push: { "preguntasPadre": objId } },
+            { safe: true, upsert: true }).exec();
+    });
+};
 
 module.exports = mongoose.model("Pregunta", preguntaSchema);

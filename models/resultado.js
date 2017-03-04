@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Respuesta = require('./respuesta.js');
 var Schema = mongoose.Schema;
 
 /* Representa un documento resultado en mongoDB
@@ -21,5 +22,13 @@ var resultadoSchema = new Schema({
     horario: String,
     respuestasPadre: [Schema.Types.ObjectId],
 });
+
+// Actualiza las referencias en otros documentos
+resultadoSchema.methods.actualizarReferencias = function (objId) {
+    this.respuestasPadre.forEach(function (e) {
+        Respuesta.update({ _id: e }, { $push: { "resultadosHijo": objId } },
+            { safe: true, upsert: true }).exec();
+    });
+};
 
 module.exports = mongoose.model("Resultado", resultadoSchema);

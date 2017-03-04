@@ -1,33 +1,16 @@
 var router = require('express').Router();
 var Historia = require('../models/historia.js');
+var routesCommons = require('./routesCommons.js');
 
 // Obtiene todas los historias
 router.get('/', function (req, res) {
-  Historia.find(function (err, docs) {
-    if (err) {
-      res.status(500).send('Ocurrio un error obteniendo los datos');
-    }
-    else
-      res.status(200).send(docs);
-  });
+  routesCommons.darTodos(req, res, Historia);
 });
 
-// Registro de una nueva historia
+// Registro de una nueva historia, si el body contiene id, se intentara actualizar el documento existente
 router.post('/', function (req, res) {
-  var nuevaHistoria = new Historia({
-    nombre: res.body.nombre,
-    fecha: res.body.fecha,
-    usuario: res.body.usuario,
-    pasos: res.body.pasos
-  });
-
-  nuevaHistoria.save(function (err, doc, numAffected) {
-    if(err){
-      res.status(500).send('No se pudo insertar la historia');
-    }
-    else
-      res.status(200).send(doc);
-  });
+  var nuevaHistoria = new Historia(req.body);
+  routesCommons.actualizarInsertar(req, res, nuevaHistoria, req.body._id);
 
 });
 

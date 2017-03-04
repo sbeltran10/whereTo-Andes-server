@@ -1,15 +1,11 @@
 var router = require('express').Router();
 var Usuario = require('../models/usuario.js');
+var routesCommons = require('./routesCommons.js');
+
 
 // Obtiene todos los usuarios
 router.get('/', function (req, res) {
-  Usuario.find(function (err, docs) {
-    if (err) {
-      res.status(500).send('Ocurrio un error obteniendo los datos');
-    }
-    else
-      res.status(200).send(docs);
-  });
+  routesCommons.darTodos(req,res,Usuario);
 });
 
 // Registro de un nuevo usuario
@@ -20,15 +16,7 @@ router.post('/', function (req, res) {
     // Pensar en cifrar
     clave: req.body.clave
   });
-
-  nuevoUsuario.save(function (err, doc, numAffected) {
-    if (err) {
-      res.status(500).send('No se pudo insertar el usuario');
-    }
-    else
-      res.status(200).send(doc);
-  });
-
+  routesCommons.actualizarInsertar(req, res, nuevoUsuario, req.body._id);
 });
 
 // Login de un usuario
