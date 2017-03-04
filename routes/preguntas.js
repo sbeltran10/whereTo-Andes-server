@@ -5,7 +5,7 @@ var routesCommons = require('./routesCommons.js');
 
 // Obtiene todas las preguntas
 router.get('/', function (req, res) {
-  routesCommons.darTodos(req,res,Pregunta);
+  routesCommons.darTodos(req, res, Pregunta);
 });
 
 // Obtiene una pregunta junto con sus posibles respuestas
@@ -20,9 +20,9 @@ router.get('/:id', function (req, res) {
           res.status(500).send('Ocurrio un error obteniendo las respuestas');
         }
         else {
-          console.log(docs);
-          doc.respuestas = docs;
-          res.status(200).send(doc);
+          var body = doc.toJSON();
+          body.respuestas = docs;
+          res.status(200).send(body);
         }
       });
     }

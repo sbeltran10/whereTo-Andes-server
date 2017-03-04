@@ -1,3 +1,7 @@
+var Pregunta = require('../models/pregunta.js');
+var Respuesta = require('../models/respuesta.js');
+var Resultado = require('../models/resultado.js');
+
 // Metodo generico para retornar todos los documentos de una coleccion
 exports.darTodos = function (req, res, model) {
     model.find(function (err, docs) {
@@ -20,7 +24,7 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
                 console.log(err);
             }
             else {
-                if (nuevoModelo.methods) nuevoModelo.actualizarReferencias(id);
+                if (nuevoModelo.methods) actualizarRefsModelo(id, nuevoModelo);
                 res.status(200).send(doc);
             }
         });
@@ -32,10 +36,27 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
                 res.status(500).send('No se pudo insertar el documento');
             }
             else {
-                if (nuevoModelo.actualizarReferencias) nuevoModelo.actualizarReferencias(doc._id);
+                if (nuevoModelo.actualizarReferencias) actualizarRefsModelo(doc._id, nuevoModelo);
                 res.status(200).send(doc);
             }
         });
 
     }
 };
+
+// Metodo que realiza la rspectiva actualizacion de referencias dependiendo de cual elemento llega por parametro
+var actualizarRefsModelo = function (id, modelo) {
+    switch (modelo.constructor.modelName) {
+        case 'Pregunta':
+            modelo.actualizarReferencias(id, Respuesta);
+            break;
+        case 'Respuesta':
+            modelo.actualizarReferencias(id, Pregunta, Resultado);
+            break;
+        case 'Resultado':
+            modelo.actualizarReferencias(id, Respuesta);
+            break;
+        default:
+            "Error"
+    }
+}
