@@ -29,5 +29,4 @@ app.use('/respuestas', respuestas);
 app.use('/historias', historias);
 
 // Puerto para la escucha de peticiones
-app.listen(8080);
-console.log('Listening on port 8080...');
+app.listen(process.env.PORT||8080);
