@@ -9,14 +9,19 @@ router.get('/', function (req, res) {
   routesCommons.darTodos(req, res, Respuesta);
 });
 
-// Obtiene un usuario con un id especifico
+// Obtiene un respuesta con un id especifico
 router.get('/:id', function (req, res) {
   routesCommons.darDocumento(req,res,Respuesta);
 });
 
-// Actualiza un documento con el id dado
+// Actualiza un respuesta con el id dado
 router.put('/:id', function (req, res) {
   routesCommons.actualizarDocumento(req, res, Respuesta);
+});
+
+// Elimina un respuesta con el id dado
+router.delete('/:id', function (req, res) {
+  routesCommons.eliminarDocumento(req, res, Respuesta);
 });
 
 // Obtiene una respuesta junto con su siguiente pregunta o resultado dado el caso

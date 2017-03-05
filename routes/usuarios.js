@@ -5,12 +5,22 @@ var routesCommons = require('./routesCommons.js');
 
 // Obtiene todos los usuarios
 router.get('/', function (req, res) {
-  routesCommons.darTodos(req,res,Usuario);
+  routesCommons.darTodos(req, res, Usuario);
 });
 
 // Obtiene un usuario con un id especifico
 router.get('/:id', function (req, res) {
-  routesCommons.darDocumento(req,res,Usuario);
+  routesCommons.darDocumento(req, res, Usuario);
+});
+
+// Actualiza un documento con el id dado
+router.put('/:id', function (req, res) {
+  routesCommons.actualizarDocumento(req, res, Usuario);
+});
+
+// Elimina un usuario con el id dado
+router.delete('/:id', function (req, res) {
+  routesCommons.eliminarDocumento(req, res, Usuario);
 });
 
 // Registro de un nuevo usuario

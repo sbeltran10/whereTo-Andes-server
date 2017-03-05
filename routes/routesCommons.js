@@ -82,6 +82,20 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
     }
 };
 
+// Metodo para eliminar un documento dado su id
+exports.eliminarDocumento = function (req, res, model) {
+    model.remove({ _id: req.params.id }, function (err, doc) {
+        if (err) {
+            res.status(500).send('Ocurrio un error eliminando el documento');
+        }
+        else if (!doc) {
+            res.status(500).send('No se encontro el documento');
+        }
+        else
+            res.status(200).send(doc);
+    });
+}
+
 // Metodo que realiza la rspectiva actualizacion de referencias dependiendo de cual elemento llega por parametro
 var actualizarRefsModelo = function (id, modelo) {
     switch (modelo.constructor.modelName) {

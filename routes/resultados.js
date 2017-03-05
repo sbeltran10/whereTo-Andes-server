@@ -7,7 +7,7 @@ router.get('/', function (req, res) {
     routesCommons.darTodos(req, res, Resultado);
 });
 
-// Obtiene un usuario con un id especifico
+// Obtiene un resultado con un id especifico
 router.get('/:id', function (req, res) {
   routesCommons.darDocumento(req,res,Resultado);
 });
@@ -15,6 +15,11 @@ router.get('/:id', function (req, res) {
 // Actualiza un documento con el id dado
 router.put('/:id', function (req, res) {
   routesCommons.actualizarDocumento(req, res, Resultado);
+});
+
+// Elimina un resultado con el id dado
+router.delete('/:id', function (req, res) {
+  routesCommons.eliminarDocumento(req, res, Resultado);
 });
 
 // Registro de un nuevo resultado, si el body contiene id, se intentara actualizar el documento existente

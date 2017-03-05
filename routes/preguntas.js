@@ -13,6 +13,11 @@ router.put('/:id', function (req, res) {
   routesCommons.actualizarDocumento(req, res, Pregunta);
 });
 
+// Elimina un pregunta con el id dado
+router.delete('/:id', function (req, res) {
+  routesCommons.eliminarDocumento(req, res, Usuario);
+});
+
 // Obtiene una pregunta junto con sus posibles respuestas
 router.get('/:id', function (req, res) {
   Pregunta.findById(req.params.id, '_id contenido', function (err1, doc) {
