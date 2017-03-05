@@ -624,3 +624,13 @@ pre code {
   text-align:center;
   padding: 10px 10px 10px 10px;
 }
+#esconder {
+  visibility: hidden;
+}
+.link {
+    font-size: 0.8em;
+}
+.center {
+  display: block;
+  margin: auto;
+}
