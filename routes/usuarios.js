@@ -2,7 +2,6 @@ var router = require('express').Router();
 var Usuario = require('../models/usuario.js');
 var routesCommons = require('./routesCommons.js');
 
-
 // Obtiene todos los usuarios
 router.get('/', function (req, res) {
   routesCommons.darTodos(req, res, Usuario);
@@ -28,7 +27,6 @@ router.post('/', function (req, res) {
   var nuevoUsuario = new Usuario({
     nombre: req.body.nombre,
     correo: req.body.correo,
-    // Pensar en cifrar
     clave: req.body.clave
   });
   routesCommons.actualizarInsertar(req, res, nuevoUsuario, req.body._id);
@@ -36,7 +34,29 @@ router.post('/', function (req, res) {
 
 // Login de un usuario
 router.post('/login', function (req, res) {
-  //TODO
+  Usuario.findOne({ 'correo': req.body.correo }, function (err, doc) {
+    if (err) {
+      res.status(500).send('Ocurrio un error en el login');
+    }
+    else if (!doc) {
+      res.status(500).send('Correo incorrecto');
+    }
+    else {
+      doc.compararClaves(req.body.clave, function (err, isMatch) {
+        if (err) {
+          res.status(500).send('Ocurrio un error en el login');
+        }
+        else if (!isMatch) {
+          res.status(500).send('Contrasena incorrecta');
+        }
+        else {
+          //TODO login logic
+          res.status(200).send('Login exitoso');
+        }
+      });
+    }
+
+  });
 });
 
 module.exports = router;
