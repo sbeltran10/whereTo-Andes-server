@@ -19,6 +19,9 @@ exports.darDocumento = function (req, res, model) {
         if (err) {
             res.status(500).send('Ocurrio un error obteniendo el documento');
         }
+        else if (!doc) {
+            res.status(500).send('No se encontro el documento');
+        }
         else
             res.status(200).send(doc);
     });
@@ -30,6 +33,9 @@ exports.actualizarDocumento = function (req, res, model) {
         model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, doc) {
             if (err) {
                 res.status(500).send('No se pudo actualizar el documento');
+            }
+            else if (!doc) {
+                res.status(500).send('No se encontro el documento');
             }
             else {
                 if (doc.methods) actualizarRefsModelo(id, nuevoModelo);
@@ -51,6 +57,9 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
         nuevoModelo.constructor.findOneAndUpdate({ _id: id }, upsertData, { new: true }, function (err, doc) {
             if (err) {
                 res.status(500).send('No se pudo actualizar el documento');
+            }
+            else if (!doc) {
+                res.status(500).send('No se encontro el documento');
             }
             else {
                 if (nuevoModelo.methods) actualizarRefsModelo(id, doc);

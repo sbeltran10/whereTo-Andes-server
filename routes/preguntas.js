@@ -19,6 +19,9 @@ router.get('/:id', function (req, res) {
     if (err1) {
       res.status(500).send('Ocurrio un error obteniendo la pregunta');
     }
+    else if(!doc){
+      res.status(500).send('No se encontro la pregunta');
+    }
     else {
       Respuesta.find({ preguntasPadre: doc._id }, '_id contenido simbolo', function (err2, docs) {
         if (err2) {
