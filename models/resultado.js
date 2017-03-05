@@ -14,7 +14,7 @@ var Schema = mongoose.Schema;
 */
 
 var resultadoSchema = new Schema({
-    nombre: String,
+    nombre: { type: String, required: true },
     ubicacion: String,
     imagen: String,
     comoLlegar: String,

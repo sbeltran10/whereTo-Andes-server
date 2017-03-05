@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-bcrypt = require('bcrypt'),SALT_WORK_FACTOR = 10;
+bcrypt = require('bcrypt'), SALT_WORK_FACTOR = 10;
 
 /* Representa un documento usuario en mongoDB
     Registro ejemplo:
@@ -12,20 +12,21 @@ bcrypt = require('bcrypt'),SALT_WORK_FACTOR = 10;
 */
 
 var usuarioSchema = new Schema({
-    nombre: String,
-    correo: String,
-    clave: String
+    nombre: { type: String, required: true },
+    correo: { type: String, required: true },
+    clave: { type: String, required: true },
+    loggedIn: { type: Boolean, default: false}
 });
 
 // Encriptacion de la contrasena
-usuarioSchema.pre('save', function(next) {
+usuarioSchema.pre('save', function (next) {
     var usuario = this;
     if (!usuario.isModified('clave')) return next();
 
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) return next(err);
 
-        bcrypt.hash(usuario.clave, salt, function(err, hash) {
+        bcrypt.hash(usuario.clave, salt, function (err, hash) {
             if (err) return next(err);
 
             usuario.clave = hash;
@@ -35,8 +36,8 @@ usuarioSchema.pre('save', function(next) {
 });
 
 // Comparacion de contrasena
-usuarioSchema.methods.compararClaves = function(claveCandidata, cb) {
-    bcrypt.compare(claveCandidata, this.clave, function(err, isMatch) {
+usuarioSchema.methods.compararClaves = function (claveCandidata, cb) {
+    bcrypt.compare(claveCandidata, this.clave, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });

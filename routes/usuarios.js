@@ -50,12 +50,48 @@ router.post('/login', function (req, res) {
           res.status(500).send('Contrasena incorrecta');
         }
         else {
-          //TODO login logic
-          res.status(200).send('Login exitoso');
+          // Flag de login
+          Usuario.findOneAndUpdate({ correo: req.body.correo }, { loggedIn: true }, { new: true }, function (err, doc) {
+            if (err) {
+              res.status(500).send('No se pudo establecer el flag de loggin del documento: ' + err);
+            }
+            else if (!doc) {
+              res.status(500).send('No se encontro el usuario');
+            }
+            else {
+              res.status(200).send(doc);
+            }
+          });
         }
       });
     }
 
+  });
+});
+
+// Logout de usuario
+router.post('/logout', function (req, res) {
+  Usuario.findOne({ 'correo': req.body.correo }, function (err, doc) {
+    if (err) {
+      res.status(500).send('Ocurrio un error en el login');
+    }
+    else if (!doc) {
+      res.status(500).send('Correo incorrecto');
+    }
+    else {
+      // Flag de login
+      Usuario.findOneAndUpdate({ correo: req.body.correo }, { loggedIn: false }, { new: true }, function (err, doc) {
+        if (err) {
+          res.status(500).send('No se pudo establecer el flag de loggin del documento: ' + err);
+        }
+        else if (!doc) {
+          res.status(500).send('No se encontro el usuario');
+        }
+        else {
+          res.status(200).send(doc);
+        }
+      });
+    }
   });
 });
 

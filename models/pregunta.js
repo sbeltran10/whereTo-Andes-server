@@ -11,7 +11,7 @@ var Schema = mongoose.Schema;
 */
 
 var preguntaSchema = new Schema({
-    contenido: String,
+    contenido: { type: String, required: true },
     respuestasPadre: [Schema.Types.ObjectId],
     respuestasHijo: [Schema.Types.ObjectId]
 });

@@ -15,7 +15,7 @@ router.put('/:id', function (req, res) {
 
 // Elimina un pregunta con el id dado
 router.delete('/:id', function (req, res) {
-  routesCommons.eliminarDocumento(req, res, Usuario);
+  routesCommons.eliminarDocumento(req, res, Pregunta);
 });
 
 // Obtiene una pregunta junto con sus posibles respuestas

@@ -6,7 +6,7 @@ var Resultado = require('../models/resultado.js');
 exports.darTodos = function (req, res, model) {
     model.find(function (err, docs) {
         if (err) {
-            res.status(500).send('Ocurrio un error obteniendo los datos');
+            res.status(500).send('Ocurrio un error obteniendo los datos: ' + err);
         }
         else
             res.status(200).send(docs);
@@ -17,7 +17,7 @@ exports.darTodos = function (req, res, model) {
 exports.darDocumento = function (req, res, model) {
     model.findById(req.params.id, function (err, doc) {
         if (err) {
-            res.status(500).send('Ocurrio un error obteniendo el documento');
+            res.status(500).send('Ocurrio un error obteniendo el documento: '+ err);
         }
         else if (!doc) {
             res.status(500).send('No se encontro el documento');
@@ -32,7 +32,7 @@ exports.actualizarDocumento = function (req, res, model) {
     if (req.params.id) {
         model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, doc) {
             if (err) {
-                res.status(500).send('No se pudo actualizar el documento');
+                res.status(500).send('No se pudo actualizar el documento: '+ err);
             }
             else if (!doc) {
                 res.status(500).send('No se encontro el documento');
@@ -56,7 +56,7 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
         delete upsertData._id;
         nuevoModelo.constructor.findOneAndUpdate({ _id: id }, upsertData, { new: true }, function (err, doc) {
             if (err) {
-                res.status(500).send('No se pudo actualizar el documento');
+                res.status(500).send('No se pudo actualizar el documento: ' + err);
             }
             else if (!doc) {
                 res.status(500).send('No se encontro el documento');
@@ -71,7 +71,7 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
     else {
         nuevoModelo.save(function (err, doc, numAffected) {
             if (err) {
-                res.status(500).send('No se pudo insertar el documento');
+                res.status(500).send('No se pudo insertar el documento: ' + err);
             }
             else {
                 if (nuevoModelo.actualizarReferencias) actualizarRefsModelo(doc._id, nuevoModelo);
@@ -86,7 +86,7 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
 exports.eliminarDocumento = function (req, res, model) {
     model.remove({ _id: req.params.id }, function (err, doc) {
         if (err) {
-            res.status(500).send('Ocurrio un error eliminando el documento');
+            res.status(500).send('Ocurrio un error eliminando el documento: '+ err);
         }
         else if (!doc) {
             res.status(500).send('No se encontro el documento');

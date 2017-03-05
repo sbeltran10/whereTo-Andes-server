@@ -13,7 +13,7 @@ var Schema = mongoose.Schema;
 */
 
 var respuestaSchema = new Schema({
-    contenido: String,
+    contenido: { type: String, required: true },
     simbolo: String,
     preguntasPadre: [Schema.Types.ObjectId],
     preguntasHijo: [Schema.Types.ObjectId],
