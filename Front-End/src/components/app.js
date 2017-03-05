@@ -14,7 +14,7 @@ class App extends Component {
       resultado: {}
     }
 
-    this.cargarPregunta("58baeb5a609f080c78011425");
+    this.cargarPregunta("58bb814fd5309c00110d995c");
   }
 
   agregarEstudiante() {
@@ -38,19 +38,33 @@ class App extends Component {
       })
   }
 
+  cargarRespuesta(id) {
+      axios.get(ROOT_URL + "/respuestas/"+id)
+      .then(response => {
+        document.getElementsByClassName("index")[0].className = "";
+        document.getElementsByClassName("next")[0].className = "content";
+        this.cargarPregunta(response.data.preguntasHijo[0]);
+
+      })
+  }
+
   render(){
     return(
       <div>
-        <section id="about" className="about section">
+        <section id="Preguntas" className="about section">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
                 <h2 className="title text-center">{this.state.pregunta}</h2>
               </div>
             </div>
-            <Respuestas respuestas={this.state.respuestas} cargarPregunta={this.cargarPregunta.bind(this)}/>
+            <div className="row">
+              <Respuestas respuestas={this.state.respuestas} cargarPregunta={this.cargarPregunta.bind(this)} cargarRespuesta={this.cargarRespuesta.bind(this)}/>
+            </div>
           </div>
         </section>
+        <div className="next">
+        </div>
       </div>
     )
   }

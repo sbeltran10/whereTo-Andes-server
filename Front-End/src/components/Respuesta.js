@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 
 class Respuesta extends Component {
-
+  
   render() {
     return(
-      <a className="bubtn btn-default" onClick={() => this.props.cargarPregunta(this.props.respuesta._id)}>
+      <div className="col-md-4 boton">
+      <a className="btn btn-info btn-lg" onClick={() => this.props.cargarRespuesta(this.props.respuesta._id)}>
         {this.props.respuesta.contenido}
       </a>
+    </div>
     )
   }
 }

@@ -9,11 +9,9 @@ class Respuestas extends Component {
   render() {
     if(this.props.respuestas) {
       return(
-        <div className="col-md-4">
+        <div>
           {this.props.respuestas.map((respuesta, index) => {
-            if(index != 0) {
-              return <Respuesta key={index} respuesta={respuesta} cargarPregunta={this.props.cargarPregunta.bind(this)}/>
-            }
+              return <Respuesta key={index} respuesta={respuesta} cargarPregunta={this.props.cargarPregunta.bind(this)} cargarRespuesta={this.props.cargarRespuesta.bind(this)}/>
           })}
         </div>
       )
