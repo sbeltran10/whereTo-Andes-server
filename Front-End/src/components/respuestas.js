@@ -11,7 +11,7 @@ class Respuestas extends Component {
       return(
         <div>
           {this.props.respuestas.map((respuesta, index) => {
-              return <Respuesta key={index} respuesta={respuesta} cargarPregunta={this.props.cargarPregunta.bind(this)} cargarRespuesta={this.props.cargarRespuesta.bind(this)}/>
+              return <Respuesta key={index} respuesta={respuesta} pregunta={this.props.pregunta} cargarRespuesta={this.props.cargarRespuesta.bind(this)}/>
           })}
         </div>
       )
