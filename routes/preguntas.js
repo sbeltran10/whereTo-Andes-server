@@ -8,11 +8,6 @@ router.get('/', function (req, res) {
   routesCommons.darTodos(req, res, Pregunta);
 });
 
-// Obtiene un usuario con un id especifico
-router.get('/:id', function (req, res) {
-  routesCommons.darDocumento(req,res,Pregunta);
-});
-
 // Actualiza un documento con el id dado
 router.put('/:id', function (req, res) {
   routesCommons.actualizarDocumento(req, res, Pregunta);
@@ -30,6 +25,7 @@ router.get('/:id', function (req, res) {
           res.status(500).send('Ocurrio un error obteniendo las respuestas');
         }
         else {
+          console.log(docs);
           var body = doc.toJSON();
           body.respuestas = docs;
           res.status(200).send(body);
