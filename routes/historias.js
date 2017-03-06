@@ -39,7 +39,7 @@ router.delete('/:id', function (req, res) {
 
 // Registro de una nueva historia, si el body contiene id, se intentara actualizar el documento existente
 router.post('/', function (req, res) {
-  Usuario.findOne({ "correo": req.body.correo }, function (err, doc) {
+  Usuario.findById(req.body.usuario, function (err, doc) {
     if (err) {
       res.status(500).send('Ocurrio un error obteniendo el documento: ' + err);
     }

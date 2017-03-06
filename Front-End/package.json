@@ -35,5 +35,9 @@
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "youtube-api-search": "0.0.5"
+  },
+    "engines": {
+    "node": "6.9.4"
   }
+  
 }
