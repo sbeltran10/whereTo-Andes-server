@@ -624,13 +624,20 @@ pre code {
   text-align:center;
   padding: 10px 10px 10px 10px;
 }
-#esconder {
-  visibility: hidden;
-}
 .link {
     font-size: 0.8em;
 }
 .center {
   display: block;
   margin: auto;
+}
+.pad {
+  padding-left: 15%;
+}
+.tituloGrafico{
+  background: #f5f5f5;
+  visibility: hidden;
+  padding-left: 20px;
+  color: #444;
+  font-size: 1.5em;
 }

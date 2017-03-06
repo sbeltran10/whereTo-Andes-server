@@ -16,7 +16,7 @@ class Resultado extends Component {
             <img className="center" src={this.props.resultado.imagen} width="200px" height="50px"/>
           </div>
         </div>
-        <div className="row">
+        <div className="row pad">
           <h4>Ubicación:</h4> <p>{this.props.resultado.ubicacion}</p>
           <h4>Horario de atención:</h4> <p>{this.props.resultado.horario}</p>
         </div>
