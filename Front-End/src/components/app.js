@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Respuestas from './respuestas';
 import Resultado from './resultado';
+import Login from './login';
+import Registro from './registro';
 
 var ROOT_URL = "http://whereto-andes-server.herokuapp.com";
 var PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
@@ -16,19 +18,10 @@ class App extends Component {
       resultado: {},
       valoresRed:[],
       numero: 0,
-      resultadoBoolean: false
+      resultadoBoolean: false,
+      estaLogueado: false
     }
     this.cargarPregunta(PREGUNTA_INICIO);
-  }
-
-  agregarEstudiante() {
-      axios.post(ROOT_URL + "/estudiantes", {
-        nombre: this.state.nombre,
-        codigo: this.state.codigo,
-        nota: this.state.nota
-      }).then(
-        this.obtenerEstudiantes()
-      )
   }
 
   cargarPregunta(id) {
@@ -39,10 +32,12 @@ class App extends Component {
           pregunta: response.data.contenido,
           respuestas: response.data.respuestas
         })
+      })
+      if(this.state.numero===1) {
         $('html,body').animate({
         scrollTop: $("#visualization").offset().top},
         'slow');
-      })
+      }
   }
 
   cargarResultado(id) {
@@ -70,7 +65,6 @@ class App extends Component {
         this.cargarTimeline();
       })
   }
-
 
   cargarRespuesta(id,pregunta,idPregunta) {
     $(".tituloGrafico").css("visibility","visible");
@@ -164,19 +158,25 @@ class App extends Component {
     return mm+'/'+dd+'/'+yyyy+"@"+hh+":"+m+":"+s;
   }
 
+  login() {
+
+  }
+
   render(){
       if(this.state.resultadoBoolean) {
         return(
           <div>
-            <section id="Resultados" className="about section">
+            <section id="resultados" className="about section">
                 <Resultado resultado={this.state.resultado}/>
             </section>
+            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
+            <div className="refrescar" id="visualization"></div>
           </div>
         )
       } else {
       return(
           <div>
-            <section id="Preguntas" className="about section">
+            <section id="preguntas" className="about section">
                 <div className="row">
                   <div className="col-md-12">
                     <h2 className="title text-center">{this.state.pregunta}</h2>
@@ -187,6 +187,14 @@ class App extends Component {
                     <Respuestas idPregunta={this.state.idPregunta} pregunta={this.state.pregunta} respuestas={this.state.respuestas} cargarPregunta={this.cargarPregunta.bind(this)} cargarRespuesta={this.cargarRespuesta.bind(this)}/>
                   </div>
                 </div>
+            </section>
+            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
+            <div className="refrescar" id="visualization"></div>
+            <section id="login" >
+              <Login estaLogueado={this.state.estaLogueado} url={ROOT_URL}/>
+            </section>
+            <section id="registrate" >
+              <Registro estaLogueado={this.state.estaLogueado} url={ROOT_URL}/>
             </section>
           </div>
       )

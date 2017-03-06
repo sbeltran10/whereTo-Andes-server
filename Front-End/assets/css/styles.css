@@ -641,3 +641,6 @@ pre code {
   color: #444;
   font-size: 1.5em;
 }
+.login-state {
+  color: #000;
+}
