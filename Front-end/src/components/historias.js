@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Historia from './historia';
 
 class Historias extends Component {
     constructor(props) {
@@ -11,8 +12,9 @@ class Historias extends Component {
             return (
                 <div>
                     {this.props.historias.map((historia, index) => {
-                        return <Historia key={index} historia={historia} idHistoria={this.props.idHistoria} nombreHistoria={this.props.nombreHistoria} cargarHistoria={this.props.cargarHistoria.bind(this)} />
+                        return <Historia key={index} historia={historia} cargarHistoria={this.props.cargarHistoria.bind(this)} />
                     })}
+                    <h4 className="modal-title">Historiales</h4>
                 </div>
             )
         }
