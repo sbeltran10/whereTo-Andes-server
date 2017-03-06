@@ -48,7 +48,7 @@ class Resultado extends Component {
             <p> Puedes guardar el resultado y todo el camino hacia el como una historia para consultar despues: </p>
             <form id="userRegisterForm" onSubmit={this.handleSubmit}>
               <label>Nombre</label>
-              <input type="text" value={this.state.correo} onChange={this.handleInputChange} name="nombre" className="form-control" placeholder="Nombre de la historia" required/>
+              <input type="text" value={this.state.nombre} onChange={this.handleInputChange} name="nombre" className="form-control" placeholder="Nombre de la historia" required/>
               <button type="submit" className="btn btn-cta-primary">Guardar Resultado</button>
             </form>
           </div>

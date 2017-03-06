@@ -4,6 +4,7 @@ import Respuestas from './respuestas';
 import Resultado from './resultado';
 import Login from './login';
 import Registro from './registro';
+import Historia from './historia';
 
 const ROOT_URL = "http://whereto-andes-server.herokuapp.com";
 const PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
@@ -58,6 +59,7 @@ class App extends Component {
         this.state.valoresRed.push(
         {
           id: id,
+          idRespuesta: "-1",
           numero: this.state.numero,
           pregunta: "Respuesta",
           respuesta: response.data.nombre,
@@ -175,11 +177,18 @@ class App extends Component {
     var pasos = [];
     for (var i = 0; i < this.state.valoresRed.length; i++) {
       var actual = this.state.valoresRed[i];
-      pasos.push( {
-          pregunta: actual.id,
-          respuesta: actual.idRespuesta
-        }
-      );
+      if(i===this.state.valoresRed.length-1) {
+        pasos.push( {
+            pregunta: actual.id
+          }
+        );
+      } else {
+        pasos.push( {
+            pregunta: actual.id,
+            respuesta: actual.idRespuesta
+          }
+        );
+      }
     }
 
     var historia = {
@@ -191,12 +200,14 @@ class App extends Component {
     console.log(historia);
 
     axios.post(ROOT_URL + "/historias", historia).then( response => {
-        console.log(response);
+        if (response.status===200){
+          alert("Tu historia se a guardado de forma exitosa");
+        }
     });
   }
 
   render(){
-      if(this.state.resultadoBoolean) {
+     if(this.state.resultadoBoolean) {
         return(
           <div>
             <section id="resultados" className="about section">
