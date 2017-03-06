@@ -5,8 +5,9 @@ import Resultado from './resultado';
 import Login from './login';
 import Registro from './registro';
 
-var ROOT_URL = "http://whereto-andes-server.herokuapp.com";
-var PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
+const ROOT_URL = "http://whereto-andes-server.herokuapp.com";
+const PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -92,7 +93,7 @@ class App extends Component {
   cargarTimeline() {
       // create a handlebars template
       var source   = document.getElementById('item-template').innerHTML;
-      var template = Handlebars.compile(document.getElementById('item-template').innerHTML);
+      var template = Handlebars.compile(source);
 
       // DOM element where the Timeline will be attached
       var container = document.getElementById('visualization');
@@ -131,7 +132,6 @@ class App extends Component {
             this.cargarPregunta(item);
             this.cargarTimeline();
           }
-
         } else {
           this.state.valoresRed.pop();
         }
@@ -158,8 +158,12 @@ class App extends Component {
     return mm+'/'+dd+'/'+yyyy+"@"+hh+":"+m+":"+s;
   }
 
-  login() {
-
+  cambiarEstadoLogueado() {
+    if(this.state.estaLogueado) {
+      this.state.estaLogueado = false;
+    } else {
+      this.state.estaLogueado = true;
+    }
   }
 
   render(){
@@ -167,10 +171,16 @@ class App extends Component {
         return(
           <div>
             <section id="resultados" className="about section">
-                <Resultado resultado={this.state.resultado}/>
+              <Resultado estaLogueado={this.state.estaLogueado} resultado={this.state.resultado}/>
             </section>
-            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
+            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Organizadas por el segundo exacto en el que las respondiste. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
             <div className="refrescar" id="visualization"></div>
+            <section id="login" >
+              <Login estaLogueado={this.state.estaLogueado} cambiarEstadoLogueado={this.cambiarEstadoLogueado.bind(this)} url={ROOT_URL}/>
+            </section>
+            <section id="registrate" >
+              <Registro estaLogueado={this.state.estaLogueado} cambiarEstadoLogueado={this.cambiarEstadoLogueado.bind(this)} url={ROOT_URL}/>
+            </section>
           </div>
         )
       } else {
@@ -188,13 +198,13 @@ class App extends Component {
                   </div>
                 </div>
             </section>
-            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
+            <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Organizadas por el segundo exacto en el que las respondiste. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
             <div className="refrescar" id="visualization"></div>
             <section id="login" >
-              <Login estaLogueado={this.state.estaLogueado} url={ROOT_URL}/>
+              <Login estaLogueado={this.state.estaLogueado}  cambiarEstadoLogueado={this.cambiarEstadoLogueado.bind(this)} url={ROOT_URL}/>
             </section>
             <section id="registrate" >
-              <Registro estaLogueado={this.state.estaLogueado} url={ROOT_URL}/>
+              <Registro estaLogueado={this.state.estaLogueado}  cambiarEstadoLogueado={this.cambiarEstadoLogueado.bind(this)} url={ROOT_URL}/>
             </section>
           </div>
       )

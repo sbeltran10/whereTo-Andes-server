@@ -33,7 +33,7 @@ class Registro extends Component {
           correo: '',
           clave: '',
         });
-        this.props.estaLogueado = true;
+        this.props.cambiarEstadoLogueado();
         $('#registrate').hide();
     })
   }
