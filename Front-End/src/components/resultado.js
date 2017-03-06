@@ -4,27 +4,23 @@ class Resultado extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state ={
+      nombre:''
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+
+  handleInputChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    var historia = {
-      id:"",
-      historia:  {
-        nombre: ""
-      }
-    }
-    axios.post(this.props.url + "/historias", this.state).then( response => {
-        this.setState({
-          correo: '',
-          clave: ''
-        });
-        $('#login').hide();
-        $('#registrate').hide();
-        this.props.estaLogueado = true;
-    })
+    this.props.guardarHistoria(this.state.nombre);
   }
 
   render() {
@@ -46,8 +42,13 @@ class Resultado extends Component {
             <h4>Ubicación:</h4> <p>{this.props.resultado.ubicacion}</p>
             <h4>Horario de atención:</h4> <p>{this.props.resultado.horario}</p>
           </div>
+          <br/>
+          <br/>
           <div className="row pad">
+            <p> Puedes guardar el resultado y todo el camino hacia el como una historia para consultar despues: </p>
             <form id="userRegisterForm" onSubmit={this.handleSubmit}>
+              <label>Nombre</label>
+              <input type="text" value={this.state.correo} onChange={this.handleInputChange} name="nombre" className="form-control" placeholder="Nombre de la historia" required/>
               <button type="submit" className="btn btn-cta-primary">Guardar Resultado</button>
             </form>
           </div>
