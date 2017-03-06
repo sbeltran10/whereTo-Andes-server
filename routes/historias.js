@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var Historia = require('../models/historia.js');
+var Usuario = require('../models/usuario.js');
 var routesCommons = require('./routesCommons.js');
 
 // Obtiene todas los historias
@@ -9,7 +10,21 @@ router.get('/', function (req, res) {
 
 // Obtiene un historia con un id especifico
 router.get('/:id', function (req, res) {
-  routesCommons.darDocumento(req,res,Historia);
+  routesCommons.darDocumento(req, res, Historia);
+});
+
+// Obtiene todas las historias del usuario con el correo dado
+router.get('/usuarios/:id', function (req, res) {
+  Historia.find({usuario: req.params.id,}, function (err, docs) {
+    if (err) {
+      res.status(500).send('Ocurrio un error obteniendo los documentos: ' + err);
+    }
+    else if (!docs) {
+      res.status(500).send('No se ninguna historia');
+    }
+    else
+      res.status(200).send(docs);
+  });
 });
 
 // Actualiza un documento con el id dado
@@ -24,9 +39,26 @@ router.delete('/:id', function (req, res) {
 
 // Registro de una nueva historia, si el body contiene id, se intentara actualizar el documento existente
 router.post('/', function (req, res) {
-  var nuevaHistoria = new Historia(req.body);
-  routesCommons.actualizarInsertar(req, res, nuevaHistoria, req.body._id);
-
+  Usuario.findOne({ "correo": req.body.correo }, function (err, doc) {
+    if (err) {
+      res.status(500).send('Ocurrio un error obteniendo el documento: ' + err);
+    }
+    else if (!doc) {
+      res.status(500).send('No se encontro al usuario');
+    }
+    else if (!doc.loggedIn) {
+      res.status(500).send("Se agoto el tiempo de sesion");
+    }
+    else {
+      var nuevaHistoria = new Historia({
+        nombre: req.body.historia.nombre,
+        fecha: new Date(),
+        usuario: doc._id,
+        pasos: req.body.historia.pasos
+      });
+      routesCommons.actualizarInsertar(req, res, nuevaHistoria, null);
+    }
+  });
 });
 
 module.exports = router;
