@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 class Resultado extends Component {
 
   render() {
+    if(estaLogueado)
     return (
       <div>
         <div className="row">
