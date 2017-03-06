@@ -32,7 +32,7 @@ class Login extends Component {
         });
         $('#login').hide();
         $('#registrate').hide();
-        this.props.cambiarEstadoLogueado();
+        this.props.cambiarEstadoLogueado(response.data._id);
     })
   }
 

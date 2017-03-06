@@ -20,7 +20,8 @@ class App extends Component {
       valoresRed:[],
       numero: 0,
       resultadoBoolean: false,
-      estaLogueado: false
+      estaLogueado: false,
+      idUsuario: ''
     }
     this.cargarPregunta(PREGUNTA_INICIO);
   }
@@ -57,7 +58,6 @@ class App extends Component {
         this.state.valoresRed.push(
         {
           id: id,
-          idRespuesta: "-1",
           numero: this.state.numero,
           pregunta: "Respuesta",
           respuesta: response.data.nombre,
@@ -158,12 +158,41 @@ class App extends Component {
     return mm+'/'+dd+'/'+yyyy+"@"+hh+":"+m+":"+s;
   }
 
-  cambiarEstadoLogueado() {
+  cambiarEstadoLogueado(id) {
     if(this.state.estaLogueado) {
       this.state.estaLogueado = false;
     } else {
       this.state.estaLogueado = true;
     }
+    if(id!=="undefined") {
+      this.setState({
+        idUsuario: id
+      });
+    }
+  }
+
+  guardarHistoria(nombre) {
+    var pasos = [];
+    for (var i = 0; i < this.state.valoresRed.length; i++) {
+      var actual = this.state.valoresRed[i];
+      pasos.push( {
+          pregunta: actual.id,
+          respuesta: actual.idRespuesta
+        }
+      );
+    }
+
+    var historia = {
+      usuario: this.state.idUsuario,
+      nombre: nombre,
+      pasos: pasos
+    }
+
+    console.log(historia);
+
+    axios.post(ROOT_URL + "/historias", historia).then( response => {
+        console.log(response);
+    });
   }
 
   render(){
@@ -171,7 +200,7 @@ class App extends Component {
         return(
           <div>
             <section id="resultados" className="about section">
-              <Resultado estaLogueado={this.state.estaLogueado} resultado={this.state.resultado}/>
+              <Resultado estaLogueado={this.state.estaLogueado} guardarHistoria={this.guardarHistoria.bind(this)} resultado={this.state.resultado}/>
             </section>
             <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Organizadas por el segundo exacto en el que las respondiste. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
             <div className="refrescar" id="visualization"></div>
