@@ -51,10 +51,10 @@ router.post('/', function (req, res) {
     }
     else {
       var nuevaHistoria = new Historia({
-        nombre: req.body.historia.nombre,
+        nombre: req.body.nombre,
         fecha: new Date(),
         usuario: doc._id,
-        pasos: req.body.historia.pasos
+        pasos: req.body.pasos
       });
       routesCommons.actualizarInsertar(req, res, nuevaHistoria, null);
     }
