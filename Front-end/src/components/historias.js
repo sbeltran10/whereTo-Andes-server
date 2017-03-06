@@ -14,7 +14,7 @@ class Historias extends Component {
                     {this.props.historias.map((historia, index) => {
                         return <Historia key={index} historia={historia} cargarHistoria={this.props.cargarHistoria.bind(this)} />
                     })}
-                    <h4 className="modal-title">Historiales</h4>
+
                 </div>
             )
         }
