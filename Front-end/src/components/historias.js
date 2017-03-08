@@ -8,18 +8,21 @@ class Historias extends Component {
     }
 
     render() {
-        if (this.props.historias) {
+        if (this.props.historias.length) {
             return (
-              <div>
-                  {this.props.historias.map((historia, index) => {
-                      return <Historia key={index} historia={historia} cargarHistoria={this.props.cargarHistoria.bind(this)} />
-                  })}
-              </div>
+                <div>
+                    {this.props.historias.map((historia, index) => {
+                        return <Historia key={index} historia={historia} cargarHistoria={this.props.cargarHistoria.bind(this)} />
+                    })}
+                </div>
             )
         }
         else {
             return (
-              <div></div>
+                <div>
+                    <div className="mensajeHistorias">No tienes ningún registro en tu historia.</div>
+
+                </div>
             )
         }
 

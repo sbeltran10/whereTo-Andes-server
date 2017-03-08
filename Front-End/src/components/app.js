@@ -199,7 +199,6 @@ class App extends Component {
         );
       }
     }
-    console.log(pasos);
     var historia = {
       usuario: this.state.idUsuario,
       nombre: nombre,
@@ -208,14 +207,12 @@ class App extends Component {
     axios.post(ROOT_URL + "/historias", historia).then(response => {
       if (response.status === 200) {
         alert("Tu historia se a guardado de forma exitosa");
+        this.cargarHistorias(this.state.idUsuario);
       }
       else {
+        alert("Ocurrio un error guardando tu historia");
       }
     });
-    this.setState({
-      historias: []
-    })
-    this.cargarHistorias(this.state.idUsuario);
   }
 
   cargarHistorias(id) {
