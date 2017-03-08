@@ -87,11 +87,21 @@ class App extends Component {
             respuesta: response.data.contenido,
             start: this.getCurrentDate()
           });
-        this.cargarTimeline();
-        if (response.data.resultadosHijo.length === 0) {
-          this.cargarPregunta(response.data.preguntasHijo[0]);
-        } else {
-          this.cargarResultado(response.data.resultadosHijo[0]);
+        if (response.data.resultadosHijo.length === 0 && response.data.preguntasHijo.length === 0) {
+          this.setState({
+            resultadoBoolean: true,
+            resultado: {
+              nombre: ""
+            }
+          })
+        }
+        else {
+          this.cargarTimeline();
+          if (response.data.resultadosHijo.length === 0) {
+            this.cargarPregunta(response.data.preguntasHijo[0]);
+          } else {
+            this.cargarResultado(response.data.resultadosHijo[0]);
+          }
         }
       })
   }
