@@ -207,11 +207,9 @@ class App extends Component {
     }
     axios.post(ROOT_URL + "/historias", historia).then(response => {
       if (response.status === 200) {
-        console.log(response);
         alert("Tu historia se a guardado de forma exitosa");
       }
-      else{
-        console.log(response);
+      else {
       }
     });
     this.setState({
@@ -226,7 +224,6 @@ class App extends Component {
         this.setState({
           historias: response.data
         })
-        console.log(this.state.historias);
       })
   }
 
@@ -258,6 +255,22 @@ class App extends Component {
     }
   }
 
+  getResultados(i) {
+    axios.get(ROOT_URL + "/respuestas/" + this.state.historia.pasos[i].respuesta)
+      .then(response => {
+        this.state.numero = this.state.numero + 1;
+        this.state.valoresRed.push(
+          {
+            id: this.state.historia.pasos[i].pregunta,
+            idRespuesta: response.data._id,
+            numero: this.state.numero,
+            pregunta: res.data.contenido,
+            respuesta: response.data.contenido,
+            start: this.getCurrentDate()
+          });
+      });
+  }
+
 
   render() {
     if (this.state.resultadoBoolean && this.state.estaLogueado) {
@@ -273,10 +286,10 @@ class App extends Component {
               <h2 className="title text-center">Historiales</h2>
             </div>
           </div>
-          <section id="historias" >
+          <div className="row">
             <Historias historias={this.state.historias} cargarHistoria={this.cargarHistoria.bind(this)} />
-          </section>
-        </div >
+          </div>
+        </div>
       )
     }
     else if (!this.state.resultadoBoolean && this.state.estaLogueado) {
@@ -297,12 +310,8 @@ class App extends Component {
           <div className="tituloGrafico">Aquí puedes ver las respuestas que has dado a preguntas anteriores. Organizadas por el segundo exacto en el que las respondiste. Si respondiste mal y quieres devolverte a alguna, solo debes dar click en ella: </div>
           <div className="refrescar" id="visualization"></div>
           <div className="row">
-            <div className="col-md-12">
-              <h2 className="title text-center">Historiales</h2>
-            </div>
-            <section id="historias" >
-              <Historias historias={this.state.historias} cargarHistoria={this.cargarHistoria.bind(this)} />
-            </section>
+            <h2 className="title text-center">Historiales</h2>
+            <Historias historias={this.state.historias} cargarHistoria={this.cargarHistoria.bind(this)} />
           </div>
         </div>
       )

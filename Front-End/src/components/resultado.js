@@ -21,6 +21,9 @@ class Resultado extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.guardarHistoria(this.state.nombre);
+    this.setState({
+      nombre: ''
+    });
   }
 
   render() {
