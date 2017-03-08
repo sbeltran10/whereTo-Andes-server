@@ -21,8 +21,15 @@ var historiaSchema = new Schema({
     fecha: Date,
     usuario: Schema.Types.ObjectId,
     pasos: [{
-        pregunta: Schema.Types.ObjectId,
-        respuesta: Schema.Types.ObjectId
+        pregunta:
+        {
+            pid: Schema.Types.ObjectId,
+            contenido: String
+        },
+        respuesta: {
+            rid: Schema.Types.ObjectId,
+            contenido: String
+        }
     }]
 });
 

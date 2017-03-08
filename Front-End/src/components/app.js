@@ -7,7 +7,7 @@ import Registro from './registro';
 import Historias from './historias';
 import Historia from './historia';
 
-const ROOT_URL = "http://whereto-andes-server.herokuapp.com";
+const ROOT_URL = "http://localhost:3000";
 const PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
 
 class App extends Component {
@@ -48,27 +48,27 @@ class App extends Component {
   }
 
   cargarResultado(id) {
-      axios.get(ROOT_URL + "/resultados/"+id)
+    axios.get(ROOT_URL + "/resultados/" + id)
       .then(response => {
         this.setState({
           resultadoBoolean: true,
-          resultado:{
+          resultado: {
             nombre: response.data.nombre,
             ubicacion: response.data.ubicacion,
             imagen: response.data.imagen,
             horario: response.data.horario
           }
         })
-        this.state.numero= this.state.numero + 1;
+        this.state.numero = this.state.numero + 1;
         this.state.valoresRed.push(
-        {
-          id: id,
-          idRespuesta: "-1",
-          numero: this.state.numero,
-          pregunta: "Respuesta",
-          respuesta: response.data.nombre,
-          start: this.getCurrentDate()
-        });
+          {
+            id: id,
+            idRespuesta: "-1",
+            numero: this.state.numero,
+            pregunta: "Respuesta",
+            respuesta: response.data.nombre,
+            start: this.getCurrentDate()
+          });
         this.cargarTimeline();
       })
   }
@@ -185,35 +185,34 @@ class App extends Component {
     var pasos = [];
     for (var i = 0; i < this.state.valoresRed.length; i++) {
       var actual = this.state.valoresRed[i];
-      pasos.push({
-        pregunta: actual.id,
-        respuesta: actual.idRespuesta
-      }
-      );
-      if(i===this.state.valoresRed.length-1) {
-        pasos.push( {
-            pregunta: actual.id
-          }
+      if (i === this.state.valoresRed.length - 1) {
+        pasos.push({
+          pregunta: { pid: actual.id, contenido: actual.pregunta },
+          respuesta: {}
+        }
         );
       } else {
-        pasos.push( {
-            pregunta: actual.id,
-            respuesta: actual.idRespuesta
-          }
+        pasos.push({
+          pregunta: { pid: actual.id, contenido: actual.pregunta },
+          respuesta: { rid: actual.idRespuesta, contenido: actual.respuesta }
+        }
         );
       }
     }
-
+    console.log(pasos);
     var historia = {
       usuario: this.state.idUsuario,
       nombre: nombre,
       pasos: pasos
     }
-
-    axios.post(ROOT_URL + "/historias", historia).then( response => {
-        if (response.status===200){
-          alert("Tu historia se a guardado de forma exitosa");
-        }
+    axios.post(ROOT_URL + "/historias", historia).then(response => {
+      if (response.status === 200) {
+        console.log(response);
+        alert("Tu historia se a guardado de forma exitosa");
+      }
+      else{
+        console.log(response);
+      }
     });
     this.setState({
       historias: []
@@ -253,9 +252,9 @@ class App extends Component {
   cargarTimelineConHistoria() {
     for (var i = 0; i < this.state.historia.pasos.length - 1; i++) {
       if (i !== 0) {
-        this.cargarPregunta(this.state.historia.pasos[i].pregunta);
+        this.cargarPregunta(this.state.historia.pasos[i].pregunta.pid);
       }
-      this.cargarRespuesta(this.state.historia.pasos[i].respuesta, this.state.pregunta, this.state.historia.pasos[i].pregunta);
+      this.cargarRespuesta(this.state.historia.pasos[i].respuesta.rid, this.state.historia.pasos[i].pregunta.contenido, this.state.historia.pasos[i].pregunta.pid);
     }
   }
 

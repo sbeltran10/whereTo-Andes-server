@@ -71,9 +71,11 @@ exports.actualizarInsertar = function (req, res, nuevoModelo, id) {
     else {
         nuevoModelo.save(function (err, doc, numAffected) {
             if (err) {
+                console.log(err);
                 res.status(500).send('No se pudo insertar el documento: ' + err);
             }
             else {
+                console.log(err);
                 if (nuevoModelo.actualizarReferencias) actualizarRefsModelo(doc._id, nuevoModelo);
                 res.status(200).send(doc);
             }
