@@ -7,7 +7,7 @@ import Registro from './registro';
 import Historias from './historias';
 import Historia from './historia';
 
-const ROOT_URL = "http://localhost:3000";
+const ROOT_URL = "https://whereto-andes-server.herokuapp.com";
 const PREGUNTA_INICIO = "58bb814fd5309c00110d995c";
 
 class App extends Component {
